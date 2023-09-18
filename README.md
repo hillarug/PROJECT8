@@ -41,6 +41,20 @@ Address:  8.8.8.8
 
 ![Alt text](image-2.png)
 
+Projects
+Docs
+
+    (STEP 18) PROJECT 8: Load Balancer Solution With Apache
+
+Configure Apache As A Load Balancer
+Configure Apache As A Load Balancer
+
+    Create an Ubuntu Server 20.04 EC2 instance and name it Project-8-apache-lb, so your EC2 list will look like 
+
+![Alt text](image-5.png)
+
+
+
 
     Open TCP port 80 on Project-8-apache-lb by creating an Inbound Rule in Security Group.
     Install Apache Load Balancer on Project-8-apache-lb server and configure it to point traffic coming to LB to both Web Servers:
@@ -103,17 +117,6 @@ http://16.170.206.245/index.php
 
 ![Alt text](./Images/image-4.png)
 
-Projects
-Docs
-
-    (STEP 18) PROJECT 8: Load Balancer Solution With Apache
-
-Configure Apache As A Load Balancer
-Configure Apache As A Load Balancer
-
-    Create an Ubuntu Server 20.04 EC2 instance and name it Project-8-apache-lb, so your EC2 list will look like 
-
-![Alt text](image-4.png)
 
 bytraffic balancing method will distribute incoming load between your Web Servers according to current traffic load. We can control in which proportion the traffic must be distributed by loadfactor parameter.
 
