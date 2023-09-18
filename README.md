@@ -96,6 +96,8 @@ So, apache2 is up and running.
 Configure load balancing
 sudo vi /etc/apache2/sites-available/000-default.conf
 
+![Alt text](image-6.png)
+
 #Add this configuration into this section <VirtualHost *:80>  </VirtualHost>
 
 <Proxy "balancer://mycluster">
@@ -108,6 +110,7 @@ sudo vi /etc/apache2/sites-available/000-default.conf
         ProxyPreserveHost On
         ProxyPass / balancer://mycluster/
         ProxyPassReverse / balancer://mycluster/
+        
 
 #Restart apache server
 
