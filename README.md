@@ -30,7 +30,7 @@ Let us take a look at the updated solution architecture with an LB added on top 
 
 ![Alt text](image.png)
 
-![Alt text](./Images/image-2.png)
+![Alt text](image-1.png)
 
 nslookup 8.8.8.8
 Server:  UnKnown
