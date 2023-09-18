@@ -27,15 +27,20 @@ Side Self Study:
 Read about different Load Balancing concepts and difference between L4 Network LB and L7 Application LB.
 
 Let us take a look at the updated solution architecture with an LB added on top of Web Servers (for simplicity let us assume it is a software L7 Application LB, for example – Apache, NGINX or HAProxy).
-![Alt text](image.png)
-![Alt text](image-1.png)
+
+![Alt text](./Images/image-1.png)
+
+![Alt text](./Images/image-2.png)
+
 nslookup 8.8.8.8
 Server:  UnKnown
 Address:  192.168.78.51
 
 Name:    dns.google
 Address:  8.8.8.8
-![Alt text](image-3.png)
+
+![Alt text](./Images/image-3.png)
+
 
     Open TCP port 80 on Project-8-apache-lb by creating an Inbound Rule in Security Group.
     Install Apache Load Balancer on Project-8-apache-lb server and configure it to point traffic coming to LB to both Web Servers:
@@ -94,4 +99,7 @@ sudo vi /etc/apache2/sites-available/000-default.conf
 
 sudo systemctl restart apache2
 So, what this configuration is telling the Apache2 server is to map the private IP address to 
-![Alt text](image-4.png)
+
+![Alt text](./Images/image-4.png)
+
+
