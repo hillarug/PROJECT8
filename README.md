@@ -171,10 +171,12 @@ What we can do, is to configure local domain name resolution. The easiest way is
 
 So, to configure local domain name resolution, use below command on the load balancer(LB)
 sudo vi /etc/hosts
-![Alt text](./Images/image-5.png)
+![Alt text](image-10.png)
 
 sudo vi /etc/apache2/sites-available/000-default.conf
-![Alt text](./Images/image-6.png)
+
+![Alt text](image-11.png)
+
 
 So, to call our client URL of R_WEB1&R_WEB2
 ubuntu@ip-172-31-35-207:~$ curl http://R_WEB1
