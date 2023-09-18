@@ -96,21 +96,9 @@ So, apache2 is up and running.
 Configure load balancing
 sudo vi /etc/apache2/sites-available/000-default.conf
 
-![Alt text](image-6.png)
+![Alt text](image-6.png)git
 
-#Add this configuration into this section <VirtualHost *:80>  </VirtualHost>
-
-<Proxy "balancer://mycluster">
-               BalancerMember http://<WebServer1-Private-IP-Address>:80 loadfactor=5 timeout=1
-               BalancerMember http://<WebServer2-Private-IP-Address>:80 loadfactor=5 timeout=1
-               ProxySet lbmethod=bytraffic
-               # ProxySet lbmethod=byrequests
-        </Proxy>
-
-        ProxyPreserveHost On
-        ProxyPass / balancer://mycluster/
-        ProxyPassReverse / balancer://mycluster/
-        
+#Add this configuration into this section <VirtualHost *:80>  </VirtualHost>       
 
 #Restart apache server
 
@@ -118,7 +106,7 @@ sudo systemctl restart apache2
 
 http://16.170.206.245/index.php
 
-![Alt text](./Images/image-4.png)
+![Alt text](image-7.png)
 
 
 bytraffic balancing method will distribute incoming load between your Web Servers according to current traffic load. We can control in which proportion the traffic must be distributed by loadfactor parameter.
