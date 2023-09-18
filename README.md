@@ -74,23 +74,14 @@ sudo a2enmod lbmethod_bytraffic
 #Restart apache2 service
 sudo systemctl restart apache2
 
-ubuntu@ip-172-31-35-207:~$ sudo systemctl status apache2
-● apache2.service - The Apache HTTP Server
-     Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: enabled)
-     Active: active (running) since Thu 2023-09-14 11:37:37 UTC; 1min 2s ago
-       Docs: https://httpd.apache.org/docs/2.4/
-    Process: 32280 ExecStart=/usr/sbin/apachectl start (code=exited, status=0/SUCCESS)
-   Main PID: 32284 (apache2)
-      Tasks: 55 (limit: 1111)
-     Memory: 5.2M
-        CPU: 30ms
-     CGroup: /system.slice/apache2.service
-             ├─32284 /usr/sbin/apache2 -k start
-             ├─32285 /usr/sbin/apache2 -k start
-             └─32286 /usr/sbin/apache2 -k start
+![Alt text](image-9.png)
 
-Sep 14 11:37:37 ip-172-31-35-207 systemd[1]: Starting The Apache HTTP Server...
-Sep 14 11:37:37 ip-172-31-35-207 systemd[1]: Started The Apache HTTP Server.
+Configure load balancing
+
+sudo vi /etc/apache2/sites-available/000-default.conf
+
+ubuntu@ip-172-31-35-207:~$ sudo systemctl status apache2
+
 So, apache2 is up and running.
 
 Configure load balancing
@@ -104,10 +95,9 @@ sudo vi /etc/apache2/sites-available/000-default.conf
 
 sudo systemctl restart apache2
 
-http://16.170.206.245/index.php
+http://16.170.206.245/index.
 
-![Alt text](image-7.png)
-
+![Alt text](image-8.png)
 
 bytraffic balancing method will distribute incoming load between your Web Servers according to current traffic load. We can control in which proportion the traffic must be distributed by loadfactor parameter.
 
@@ -189,239 +179,6 @@ sudo vi /etc/apache2/sites-available/000-default.conf
 So, to call our client URL of R_WEB1&R_WEB2
 ubuntu@ip-172-31-35-207:~$ curl http://R_WEB1
 
-
-<!DOCTYPE html>
-
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="tooling_stylesheets.css">
-   <script src="script.js"></script> 
-    <title> PROPITIX TOOLING</title>
-</head>
-
-
-<body>
-
-
-
-
-<div class="header">
-
-        </div>
-        <div class="content">
-                <!-- notification message -->
-                                <!-- logged in user information -->
-                <div class="profile_info">
-                <!--    <img src="images/user_profile.png"  > -->
-
-                        <div>
-                                                        </div>
-                </div>
-        </div>
-
-
-
-
-
-
-    <div class="Logo">
-
-        <a href="index.php">
-            <img src="img/logo-propitix.png" alt="" width="220" height="150">
-            </a>
-    </div>
-   
-
-    <h1> PROPITIX TOOLING WEBSITE </h1>
-    <h2 id="test">Propitix.io</h2>
-
-
-    
-    <div class="container">
-        <div class="box">
-            <a href="https://jenkins.infra.zooto.io/" target="_blank">
-                <img src="img/jenkins.png" alt="Snow" width="400" height="150">
-            </a>
-        </div>
-
-        <div class="box">
-            <a href="https://grafana.infra.zooto.io/" target="_blank">
-                <img src="img/grafana.png" alt="Snow2" width="400" height="150">
-            </a>
-
-
-        </div>
-
-        <div class="box">
-            <a href="https://rancher.infra.zooto.io/" target="_blank">
-                <img src="img/rancher.png" alt="Snow" width="400" height="150">
-            </a>
-        </div>
-
-
-    </div>
-     <div class="container">
-        <div class="box">
-            <a href="https://prometheus.infra.zooto.io/" target="_blank">
-                <img src="img/prometheus.png" alt="Snow" width="400" height="150">
-            </a>
-        </div>
-
-        <div class="box">
-            <a href="https://k8s-metrics.infra.zooto.io/" target="_blank">
-                <img src="img/kubernetes.png" alt="Snow" width="400" height="120">
-            </a>
-
-        </div>
-
-        <div class="box">
-            <a href="https://kibana.infra.zooto.io/" target="_blank">
-                <img src="img/kibana.png" alt="Snow" width="400" height="100">
-            </a>
-        </div>
-
-
-    </div>
-
-    <div class="container">
-        <div class="box">
-            <a href="https://artifactory.infra.zooto.io/" target="_blank">
-                <img src="img/jfrog.png" alt="snow" width="400" height="100">
-            </a>
-
-        </div>
-
-    </div>
-
-</div>
-
-    </section>
-
-
-</body>
-
-So, this means the local name of this name resolution of load balancer worked for R_WEB1
-
-To, check for R_WEB2
-</html>ubuntu@ip-172-31-35-207:~$ ^C
-ubuntu@ip-172-31-35-207:~$ curl http://R_WEB2
-
-
-<!DOCTYPE html>
-
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="tooling_stylesheets.css">
-   <script src="script.js"></script> 
-    <title> PROPITIX TOOLING</title>
-</head>
-
-
-<body>
-
-
-
-
-<div class="header">
-
-        </div>
-        <div class="content">
-                <!-- notification message -->
-                                <!-- logged in user information -->
-                <div class="profile_info">
-                <!--    <img src="images/user_profile.png"  > -->
-
-                        <div>
-                                                        </div>
-                </div>
-        </div>
-
-
-
-
-
-
-    <div class="Logo">
-
-        <a href="index.php">
-            <img src="img/logo-propitix.png" alt="" width="220" height="150">
-            </a>
-    </div>
-   
-
-    <h1> PROPITIX TOOLING WEBSITE </h1>
-    <h2 id="test">Propitix.io</h2>
-
-
-    
-    <div class="container">
-        <div class="box">
-            <a href="https://jenkins.infra.zooto.io/" target="_blank">
-                <img src="img/jenkins.png" alt="Snow" width="400" height="150">
-            </a>
-        </div>
-
-        <div class="box">
-            <a href="https://grafana.infra.zooto.io/" target="_blank">
-                <img src="img/grafana.png" alt="Snow2" width="400" height="150">
-            </a>
-
-
-        </div>
-
-        <div class="box">
-            <a href="https://rancher.infra.zooto.io/" target="_blank">
-                <img src="img/rancher.png" alt="Snow" width="400" height="150">
-            </a>
-        </div>
-
-
-    </div>
-     <div class="container">
-        <div class="box">
-            <a href="https://prometheus.infra.zooto.io/" target="_blank">
-                <img src="img/prometheus.png" alt="Snow" width="400" height="150">
-            </a>
-        </div>
-
-        <div class="box">
-            <a href="https://k8s-metrics.infra.zooto.io/" target="_blank">
-                <img src="img/kubernetes.png" alt="Snow" width="400" height="120">
-            </a>
-
-        </div>
-
-        <div class="box">
-            <a href="https://kibana.infra.zooto.io/" target="_blank">
-                <img src="img/kibana.png" alt="Snow" width="400" height="100">
-            </a>
-        </div>
-
-
-    </div>
-
-    <div class="container">
-        <div class="box">
-            <a href="https://artifactory.infra.zooto.io/" target="_blank">
-                <img src="img/jfrog.png" alt="snow" width="400" height="100">
-            </a>
-
-        </div>
-
-    </div>
-
-</div>
-
-    </section>
-
-
-</body>
 
 So, we were able to achiev this architecture
 ![Alt text](./Images/image-7.png)
