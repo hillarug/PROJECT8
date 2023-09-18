@@ -179,6 +179,7 @@ sudo vi /etc/hosts
 
 sudo vi /etc/apache2/sites-available/000-default.conf
 ![Alt text](./Images/image-6.png)
+
 So, to call our client URL of R_WEB1&R_WEB2
 ubuntu@ip-172-31-35-207:~$ curl http://R_WEB1
 
