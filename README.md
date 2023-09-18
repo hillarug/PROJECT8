@@ -181,9 +181,14 @@ sudo vi /etc/apache2/sites-available/000-default.conf
 So, to call our client URL of R_WEB1&R_WEB2
 ubuntu@ip-172-31-35-207:~$ curl http://R_WEB1
 
+You can try to curl your Web Servers from LB locally curl http://Web1 or curl http://Web2 – it shall work.
 
-So, we were able to achiev this architecture
-![Alt text](./Images/image-7.png)
+Remember, this is only internal configuration and it is also local to your LB server, these names will neither be ‘resolvable’ from other servers internally nor from the Internet.
+
+
+So, we were able to achieve this architecture
+![Alt text](image-12.png)
+
 
 
 
