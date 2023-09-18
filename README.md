@@ -28,7 +28,7 @@ Read about different Load Balancing concepts and difference between L4 Network L
 
 Let us take a look at the updated solution architecture with an LB added on top of Web Servers (for simplicity let us assume it is a software L7 Application LB, for example – Apache, NGINX or HAProxy).
 
-![Alt text](./Images/image-1.png)
+![Alt text](image.png)
 
 ![Alt text](./Images/image-2.png)
 
