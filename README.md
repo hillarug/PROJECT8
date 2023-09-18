@@ -36,3 +36,62 @@ Address:  192.168.78.51
 Name:    dns.google
 Address:  8.8.8.8
 ![Alt text](image-3.png)
+
+    Open TCP port 80 on Project-8-apache-lb by creating an Inbound Rule in Security Group.
+    Install Apache Load Balancer on Project-8-apache-lb server and configure it to point traffic coming to LB to both Web Servers:
+
+#Install apache2
+sudo apt update
+sudo apt install apache2 -y
+sudo apt-get install libxml2-dev -y
+#Enable following modules:
+sudo a2enmod rewrite
+sudo a2enmod proxy
+sudo a2enmod proxy_balancer
+sudo a2enmod proxy_http
+sudo a2enmod headers
+sudo a2enmod lbmethod_bytraffic
+
+#Restart apache2 service
+sudo systemctl restart apache2
+
+ubuntu@ip-172-31-35-207:~$ sudo systemctl status apache2
+● apache2.service - The Apache HTTP Server
+     Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: enabled)
+     Active: active (running) since Thu 2023-09-14 11:37:37 UTC; 1min 2s ago
+       Docs: https://httpd.apache.org/docs/2.4/
+    Process: 32280 ExecStart=/usr/sbin/apachectl start (code=exited, status=0/SUCCESS)
+   Main PID: 32284 (apache2)
+      Tasks: 55 (limit: 1111)
+     Memory: 5.2M
+        CPU: 30ms
+     CGroup: /system.slice/apache2.service
+             ├─32284 /usr/sbin/apache2 -k start
+             ├─32285 /usr/sbin/apache2 -k start
+             └─32286 /usr/sbin/apache2 -k start
+
+Sep 14 11:37:37 ip-172-31-35-207 systemd[1]: Starting The Apache HTTP Server...
+Sep 14 11:37:37 ip-172-31-35-207 systemd[1]: Started The Apache HTTP Server.
+So, apache2 is up and running.
+
+Configure load balancing
+sudo vi /etc/apache2/sites-available/000-default.conf
+
+#Add this configuration into this section <VirtualHost *:80>  </VirtualHost>
+
+<Proxy "balancer://mycluster">
+               BalancerMember http://<WebServer1-Private-IP-Address>:80 loadfactor=5 timeout=1
+               BalancerMember http://<WebServer2-Private-IP-Address>:80 loadfactor=5 timeout=1
+               ProxySet lbmethod=bytraffic
+               # ProxySet lbmethod=byrequests
+        </Proxy>
+
+        ProxyPreserveHost On
+        ProxyPass / balancer://mycluster/
+        ProxyPassReverse / balancer://mycluster/
+
+#Restart apache server
+
+sudo systemctl restart apache2
+So, what this configuration is telling the Apache2 server is to map the private IP address to 
+![Alt text](image-4.png)
