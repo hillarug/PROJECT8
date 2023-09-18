@@ -103,6 +103,18 @@ http://16.170.206.245/index.php
 
 ![Alt text](./Images/image-4.png)
 
+Projects
+Docs
+
+    (STEP 18) PROJECT 8: Load Balancer Solution With Apache
+
+Configure Apache As A Load Balancer
+Configure Apache As A Load Balancer
+
+    Create an Ubuntu Server 20.04 EC2 instance and name it Project-8-apache-lb, so your EC2 list will look like 
+
+    ![Alt text](image-3.png)
+
 bytraffic balancing method will distribute incoming load between your Web Servers according to current traffic load. We can control in which proportion the traffic must be distributed by loadfactor parameter.
 
 You can also study and try other methods, like: bybusyness, byrequests, heartbeat
