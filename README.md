@@ -39,7 +39,7 @@ Address:  192.168.78.51
 Name:    dns.google
 Address:  8.8.8.8
 
-![Alt text](./Images/image-3.png)
+![Alt text](image-2.png)
 
 
     Open TCP port 80 on Project-8-apache-lb by creating an Inbound Rule in Security Group.
