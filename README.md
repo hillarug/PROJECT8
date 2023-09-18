@@ -98,8 +98,328 @@ sudo vi /etc/apache2/sites-available/000-default.conf
 #Restart apache server
 
 sudo systemctl restart apache2
-So, what this configuration is telling the Apache2 server is to map the private IP address to 
+
+http://16.170.206.245/index.php
 
 ![Alt text](./Images/image-4.png)
+
+bytraffic balancing method will distribute incoming load between your Web Servers according to current traffic load. We can control in which proportion the traffic must be distributed by loadfactor parameter.
+
+You can also study and try other methods, like: bybusyness, byrequests, heartbeat
+
+    Verify that our configuration works – try to access your LB’s public IP address or Public DNS name from your browser:
+
+    So, on Web_server1&2 on project7, when we run command sudo tail -f /var/log/httpd/access_log on them on project7 as many as we try to access the webpage the more logs we will have. See below logs from the webserver1&2 after we try to access.
+
+    Note: If in the Project-7 you mounted /var/log/httpd/ from your Web Servers to the NFS server – umount them and make sure that each Web Server has its own log directory. So, run below command to umount
+    sudo umount /var/log/httpd
+
+Open two ssh/Putty consoles for both Web Servers and run following command:
+
+
+sudo tail -f /var/log/httpd/access_log
+This will show us the machine, the browser you are accessing it from, the time you are accessing and more.
+102.88.62.85 - - [18/Sep/2023:14:50:44 +0000] "GET /img/kubernetes.png HTTP/1.1" 200 32166 "http://16.171.199.72/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.85 - - [18/Sep/2023:14:50:44 +0000] "GET /img/grafana.png HTTP/1.1" 200 14139 "http://16.171.199.72/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.67 - - [18/Sep/2023:14:50:44 +0000] "GET /img/rancher.png HTTP/1.1" 200 13649 "http://16.171.199.72/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.107 - - [18/Sep/2023:14:50:44 +0000] "GET /img/jenkins.png HTTP/1.1" 200 35495 "http://16.171.199.72/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.85 - - [18/Sep/2023:14:50:45 +0000] "GET /img/jfrog.png HTTP/1.1" 200 62998 "http://16.171.199.72/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.85 - - [18/Sep/2023:14:50:45 +0000] "GET /img/kibana.png HTTP/1.1" 200 43059 "http://16.171.199.72/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.35.180 - - [18/Sep/2023:14:50:44 +0000] "GET /img/logo-propitix.png HTTP/1.1" 200 100576 "http://16.171.199.72/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.35.180 - - [18/Sep/2023:14:50:45 +0000] "GET /favicon.ico HTTP/1.1" 404 196 "http://16.171.199.72/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.85 - - [18/Sep/2023:14:54:48 +0000] "GET /admin_tooling.php HTTP/1.1" 200 2307 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.107 - - [18/Sep/2023:14:54:48 +0000] "GET /favicon.ico HTTP/1.1" 404 196 "http://16.171.199.72/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+172.31.35.207 - - [18/Sep/2023:14:56:58 +0000] "GET /.env HTTP/1.1" 404 196 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"
+172.31.35.207 - - [18/Sep/2023:14:56:59 +0000] "POST / HTTP/1.1" 302 2455 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"
+135.125.246.110 - - [18/Sep/2023:15:11:02 +0000] "GET /.env HTTP/1.1" 404 196 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"
+135.125.246.110 - - [18/Sep/2023:15:11:02 +0000] "POST / HTTP/1.1" 302 2455 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"
+172.31.35.207 - - [18/Sep/2023:15:16:31 +0000] "GET / HTTP/1.1" 302 2455 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+172.31.35.207 - - [18/Sep/2023:15:16:32 +0000] "GET /style.css HTTP/1.1" 200 1704 "http://16.170.206.245/login.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+172.31.35.207 - - [18/Sep/2023:15:16:44 +0000] "GET /admin_tooling.php HTTP/1.1" 302 2027 "http://16.170.206.245/login.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+
+[ec2-user@ip-172-31-40-91 ~]$ sudo tail -f /var/log/httpd/access_log
+94.183.159.75 - - [18/Sep/2023:11:39:50 +0000] "GET / HTTP/1.1" 302 2455 "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36"
+185.254.196.173 - - [18/Sep/2023:12:05:05 +0000] "GET /.env HTTP/1.1" 404 196 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"
+185.254.196.173 - - [18/Sep/2023:12:05:05 +0000] "POST / HTTP/1.1" 302 2455 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"
+43.154.8.109 - - [18/Sep/2023:12:11:41 +0000] "HEAD /Core/Skin/Login.aspx HTTP/1.1" 404 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
+92.118.39.40 - - [18/Sep/2023:13:05:27 +0000] "GET / HTTP/1.1" 302 2455 "-" "-"
+66.240.236.116 - - [18/Sep/2023:13:17:28 +0000] "GET / HTTP/1.1" 302 2455 "-" "Mozilla/5.0 zgrab/0.x"
+185.254.196.186 - - [18/Sep/2023:13:37:05 +0000] "GET /.env HTTP/1.1" 404 196 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"
+185.254.196.186 - - [18/Sep/2023:13:37:05 +0000] "POST / HTTP/1.1" 302 2455 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"
+43.154.8.109 - - [18/Sep/2023:13:45:41 +0000] "HEAD /Core/Skin/Login.aspx HTTP/1.1" 404 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
+188.94.32.94 - - [18/Sep/2023:14:09:58 +0000] "GET / HTTP/1.1" 302 2455 "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"102.88.62.67 - - [18/Sep/2023:14:51:30 +0000] "GET / HTTP/1.1" 302 2455 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.67 - - [18/Sep/2023:14:51:30 +0000] "GET /login.php HTTP/1.1" 200 715 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.85 - - [18/Sep/2023:14:51:30 +0000] "GET /style.css HTTP/1.1" 200 1704 "http://13.49.68.150/login.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.67 - - [18/Sep/2023:14:51:30 +0000] "GET /favicon.ico HTTP/1.1" 404 196 "http://13.49.68.150/login.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.85 - - [18/Sep/2023:14:51:51 +0000] "POST /login.php HTTP/1.1" 302 715 "http://13.49.68.150/login.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.85 - - [18/Sep/2023:14:51:51 +0000] "GET /admin_tooling.php HTTP/1.1" 200 2396 "http://13.49.68.150/login.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.85 - - [18/Sep/2023:14:51:51 +0000] "GET /tooling_stylesheets.css HTTP/1.1" 200 1027 "http://13.49.68.150/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.35.153 - - [18/Sep/2023:14:51:51 +0000] "GET /img/grafana.png HTTP/1.1" 200 14139 "http://13.49.68.150/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.107 - - [18/Sep/2023:14:51:51 +0000] "GET /img/kubernetes.png HTTP/1.1" 200 32166 "http://13.49.68.150/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.67 - - [18/Sep/2023:14:51:51 +0000] "GET /img/kibana.png HTTP/1.1" 200 43059 "http://13.49.68.150/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.62.85 - - [18/Sep/2023:14:51:51 +0000] "GET /img/rancher.png HTTP/1.1" 200 13649 "http://13.49.68.150/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.35.180 - - [18/Sep/2023:14:51:51 +0000] "GET /img/jenkins.png HTTP/1.1" 200 35495 "http://13.49.68.150/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.35.153 - - [18/Sep/2023:14:51:52 +0000] "GET /img/prometheus.png HTTP/1.1" 200 22884 "http://13.49.68.150/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.35.153 - - [18/Sep/2023:14:51:51 +0000] "GET /img/logo-propitix.png HTTP/1.1" 200 100576 "http://13.49.68.150/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+102.88.35.180 - - [18/Sep/2023:14:51:52 +0000] "GET /img/jfrog.png HTTP/1.1" 200 62998 "http://13.49.68.150/admin_tooling.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+
+ Try to refresh your browser page http://<Load-Balancer-Public-IP-Address-or-Public-DNS-Name>/index.php several times and make sure that both servers receive HTTP GET requests from your LB – new records must appear in each server’s log file. The number of requests to each server will be approximately the same since we set loadfactor to the same value for both servers – it means that traffic will be disctributed evenly between them.
+
+If you have configured everything correctly – your users will not even notice that their requests are served by more than one server.
+
+
+Optional Step – Configure Local DNS Names Resolution
+
+Sometimes it is tedious to remember and switch between IP addresses, especially if you have a lot of servers under your management.
+What we can do, is to configure local domain name resolution. The easiest way is to use /etc/hosts file, although this approach is not very scalable, but it is very easy to configure and shows the concept well. So let us configure IP address to domain name mapping for our LB.
+
+So, to configure local domain name resolution, use below command on the load balancer(LB)
+sudo vi /etc/hosts
+![Alt text](./Images/image-5.png)
+
+sudo vi /etc/apache2/sites-available/000-default.conf
+![Alt text](./Images/image-6.png)
+So, to call our client URL of R_WEB1&R_WEB2
+ubuntu@ip-172-31-35-207:~$ curl http://R_WEB1
+
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="tooling_stylesheets.css">
+   <script src="script.js"></script> 
+    <title> PROPITIX TOOLING</title>
+</head>
+
+
+<body>
+
+
+
+
+<div class="header">
+
+        </div>
+        <div class="content">
+                <!-- notification message -->
+                                <!-- logged in user information -->
+                <div class="profile_info">
+                <!--    <img src="images/user_profile.png"  > -->
+
+                        <div>
+                                                        </div>
+                </div>
+        </div>
+
+
+
+
+
+
+    <div class="Logo">
+
+        <a href="index.php">
+            <img src="img/logo-propitix.png" alt="" width="220" height="150">
+            </a>
+    </div>
+   
+
+    <h1> PROPITIX TOOLING WEBSITE </h1>
+    <h2 id="test">Propitix.io</h2>
+
+
+    
+    <div class="container">
+        <div class="box">
+            <a href="https://jenkins.infra.zooto.io/" target="_blank">
+                <img src="img/jenkins.png" alt="Snow" width="400" height="150">
+            </a>
+        </div>
+
+        <div class="box">
+            <a href="https://grafana.infra.zooto.io/" target="_blank">
+                <img src="img/grafana.png" alt="Snow2" width="400" height="150">
+            </a>
+
+
+        </div>
+
+        <div class="box">
+            <a href="https://rancher.infra.zooto.io/" target="_blank">
+                <img src="img/rancher.png" alt="Snow" width="400" height="150">
+            </a>
+        </div>
+
+
+    </div>
+     <div class="container">
+        <div class="box">
+            <a href="https://prometheus.infra.zooto.io/" target="_blank">
+                <img src="img/prometheus.png" alt="Snow" width="400" height="150">
+            </a>
+        </div>
+
+        <div class="box">
+            <a href="https://k8s-metrics.infra.zooto.io/" target="_blank">
+                <img src="img/kubernetes.png" alt="Snow" width="400" height="120">
+            </a>
+
+        </div>
+
+        <div class="box">
+            <a href="https://kibana.infra.zooto.io/" target="_blank">
+                <img src="img/kibana.png" alt="Snow" width="400" height="100">
+            </a>
+        </div>
+
+
+    </div>
+
+    <div class="container">
+        <div class="box">
+            <a href="https://artifactory.infra.zooto.io/" target="_blank">
+                <img src="img/jfrog.png" alt="snow" width="400" height="100">
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+    </section>
+
+
+</body>
+
+So, this means the local name of this name resolution of load balancer worked for R_WEB1
+
+To, check for R_WEB2
+</html>ubuntu@ip-172-31-35-207:~$ ^C
+ubuntu@ip-172-31-35-207:~$ curl http://R_WEB2
+
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="tooling_stylesheets.css">
+   <script src="script.js"></script> 
+    <title> PROPITIX TOOLING</title>
+</head>
+
+
+<body>
+
+
+
+
+<div class="header">
+
+        </div>
+        <div class="content">
+                <!-- notification message -->
+                                <!-- logged in user information -->
+                <div class="profile_info">
+                <!--    <img src="images/user_profile.png"  > -->
+
+                        <div>
+                                                        </div>
+                </div>
+        </div>
+
+
+
+
+
+
+    <div class="Logo">
+
+        <a href="index.php">
+            <img src="img/logo-propitix.png" alt="" width="220" height="150">
+            </a>
+    </div>
+   
+
+    <h1> PROPITIX TOOLING WEBSITE </h1>
+    <h2 id="test">Propitix.io</h2>
+
+
+    
+    <div class="container">
+        <div class="box">
+            <a href="https://jenkins.infra.zooto.io/" target="_blank">
+                <img src="img/jenkins.png" alt="Snow" width="400" height="150">
+            </a>
+        </div>
+
+        <div class="box">
+            <a href="https://grafana.infra.zooto.io/" target="_blank">
+                <img src="img/grafana.png" alt="Snow2" width="400" height="150">
+            </a>
+
+
+        </div>
+
+        <div class="box">
+            <a href="https://rancher.infra.zooto.io/" target="_blank">
+                <img src="img/rancher.png" alt="Snow" width="400" height="150">
+            </a>
+        </div>
+
+
+    </div>
+     <div class="container">
+        <div class="box">
+            <a href="https://prometheus.infra.zooto.io/" target="_blank">
+                <img src="img/prometheus.png" alt="Snow" width="400" height="150">
+            </a>
+        </div>
+
+        <div class="box">
+            <a href="https://k8s-metrics.infra.zooto.io/" target="_blank">
+                <img src="img/kubernetes.png" alt="Snow" width="400" height="120">
+            </a>
+
+        </div>
+
+        <div class="box">
+            <a href="https://kibana.infra.zooto.io/" target="_blank">
+                <img src="img/kibana.png" alt="Snow" width="400" height="100">
+            </a>
+        </div>
+
+
+    </div>
+
+    <div class="container">
+        <div class="box">
+            <a href="https://artifactory.infra.zooto.io/" target="_blank">
+                <img src="img/jfrog.png" alt="snow" width="400" height="100">
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+    </section>
+
+
+</body>
+
+So, we were able to achiev this architecture
+![Alt text](./Images/image-7.png)
+
+
+
 
 
